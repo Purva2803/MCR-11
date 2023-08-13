@@ -1,0 +1,36 @@
+.header {
+    background-color: #f1f1f1;
+    text-align: center;
+    font-size: 24px; /* Adjust the font size as needed */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .header h1 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .header a {
+    text-decoration: none;
+    color: #333;
+    margin: 0 10px;
+  }
+  
+  .header a.active {
+    font-weight: bold;
+    color: #ff6347; /* You can use your desired active link color */
+  }
+  
+  .header a:hover {
+    text-decoration: underline;
+  }
+  
