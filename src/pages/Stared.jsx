@@ -21,7 +21,7 @@ export const Stared = ({ changeText }) => {
       {staredMovies.map((movie) => (
         <div className="movie" key={movie.id}>
           <NavLink to={`/movies/${movie.id}`}>
-            <img src={movie.imageUrl} alt={movie.title} />
+            <img src={movie.imageURL} alt={movie.title} />
           </NavLink>
           <div className="movie-info">
             <h4>{movie.title}</h4>
