@@ -5,7 +5,8 @@ import "../styles/movies.css";
 import { NavLink } from "react-router-dom";
 
 export const Movies = () => {
-  const { searchQuery } = useSearchContext();
+  const { searchQuery,addTowatchList,changeText } = useSearchContext();
+  console.log(searchQuery);
 
   const getMovies = JSON.parse(localStorage.getItem("movies")) || movies;
   const [newmovies, setMovies] = useState(getMovies);
@@ -14,35 +15,6 @@ export const Movies = () => {
     localStorage.setItem("movies", JSON.stringify(newmovies));
   }, [newmovies]);
 
-  const changeText = (movieId) => {
-    setMovies((prevMovies) => {
-      return prevMovies.map((movie) => {
-        if (movie.id === movieId) {
-          return {
-            ...movie,
-            stared: !movie.stared,
-          };
-        } else {
-          return movie;
-        }
-      });
-    });
-  };
-
-  const addTowatchList = (movieId) => {
-    setMovies((prevMovies) => {
-      return prevMovies.map((movie) => {
-        if (movie.id === movieId) {
-          return {
-            ...movie,
-            watchList: !movie.watchList,
-          };
-        } else {
-          return movie;
-        }
-      });
-    });
-  };
 
   const genres = [...new Set(movies.flatMap(({ genre }) => genre))];
 
@@ -102,10 +74,16 @@ export const Movies = () => {
   };
 
   const filteredMovies = newmovies.filter((movie) =>
-    movie.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
+const moviesToDisplay = searchQuery ? filteredMovies : newmovies; // Use filteredMovies only if searchQuery is provided
+
 
   return (
+
+  
+
     <div>
       <div>
         <h1>Movies</h1>
@@ -144,8 +122,28 @@ export const Movies = () => {
             </select>
           </div>
         </div>
-
         <div className="movies">
+      {searchQuery && filteredMovies.length === 0 ? (
+        <p>No matching movies found.</p>
+      ) : (
+        moviesToDisplay.map((movie) => (
+          <div className="movie" key={movie.id}>
+            <NavLink to={`/movies/${movie.id}`}>
+              <img src={movie.imageURL} alt="movie" />
+            </NavLink>
+            <h3>{movie.title}</h3>
+            <button onClick={() => changeText(movie.id)}>
+              {movie.stared ? "Stared" : "Start"}
+            </button>
+            <button onClick={() => addTowatchList(movie.id)}>
+              {movie.watchList ? "Added To watch list" : "Add to watch list"}
+            </button>
+          </div>
+        ))
+      )}
+    </div>
+
+        {/* <div className="movies">
           {filteredMovies.map((movie) => (
             <div className="movie" key={movie.id}>
               <NavLink to={`/movies/${movie.id}`}>
@@ -160,7 +158,7 @@ export const Movies = () => {
               </button>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
